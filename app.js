@@ -192,7 +192,7 @@ app.get("/getnote",(req,res)=>{
         }
     })}
     else{
-        res.json([{title:"Welcome User",content:"Please Login to Save your Notes !"}])
+        res.json([]);
         
     }
 
