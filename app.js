@@ -12,7 +12,7 @@ var FacebookStrategy=require("passport-facebook").Strategy
 var findOrCreate = require('mongoose-findorcreate')
 
 mongoose.set('strictQuery', false);
-mongoose.connect("mongodb://localhost:27017/keeperDB");
+mongoose.connect("mongodb+srv://admin:admin@cluster0.wu6ayr7.mongodb.net/keeperDB")
 
 const app=express();
 app.use(bodyParser.json());
