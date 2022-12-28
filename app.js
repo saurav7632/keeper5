@@ -87,7 +87,7 @@ app.get('/auth/google/loggedin',
   passport.authenticate('google',{ failureRedirect: 'http://localhost:3000/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect("http://localhost:3000/");
+    res.redirect("https://keeper-by-saurav.cyclic.app/");
   });
   app.get('/auth/facebook',
   passport.authenticate('facebook'));
@@ -96,7 +96,7 @@ app.get('/auth/google/loggedin',
   passport.authenticate('facebook', { failureRedirect: 'http://localhost:3000/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('http://localhost:3000/');
+    res.redirect("https://keeper-by-saurav.cyclic.app/");
   });
 app.post("/register",function(req,res){
     const title=req.body.title
