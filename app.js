@@ -9,7 +9,6 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var FacebookStrategy=require("passport-facebook").Strategy
-var InstagramStrategy=require("passport-instagram").Strategy
 var findOrCreate = require('mongoose-findorcreate')
 
 mongoose.set('strictQuery', false);
