@@ -64,7 +64,7 @@ passport.serializeUser(function(user, cb) {
     callbackURL: "https://keeper-by-saurav.cyclic.app/auth/google/loggedin"
   },
   function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ SocialId: profile.id ,name:profile.displayName,Avatar:profile.photos[0].value}, function (err, user) {
+    User.findOrCreate({ SocialId: profile.id ,name:profile.displayName,Avatar:profile.photos[0].value,username:profile.id}, function (err, user) {
         console.log(profile);
       return cb(err, user);
     });
@@ -90,7 +90,7 @@ passport.use(new GitHubStrategy({
     callbackURL: "https://keeper-by-saurav.cyclic.app/auth/github/loggedin"
   },
   function(accessToken, refreshToken, profile, done) {
-    User.findOrCreate({ SocialId: profile.id,name:profile.username ,username:profile.username}, function (err, user) {
+    User.findOrCreate({ SocialId: profile.id,name:profile.username ,username:profile.id}, function (err, user) {
         console.log(profile);
       return done(err, user);
     });
