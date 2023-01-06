@@ -13,8 +13,8 @@ var GitHubStrategy=require("passport-github2").Strategy
 var findOrCreate = require('mongoose-findorcreate')
 
 mongoose.set('strictQuery', false);
-// mongoose.connect("mongodb+srv://admin:admin@cluster0.wu6ayr7.mongodb.net/keeperDB")
-mongoose.connect("mongodb://localhost/keeperDB");
+mongoose.connect("mongodb+srv://admin:admin@cluster0.wu6ayr7.mongodb.net/keeperDB")
+// mongoose.connect("mongodb://localhost/keeperDB");
 
 
 const app=express();
