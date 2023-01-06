@@ -58,7 +58,7 @@ passport.serializeUser(function(user, cb) {
   passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret:process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:8080/auth/google/loggedin"
+    callbackURL: "https://keeper-by-saurav.cyclic.app/auth/google/loggedin"
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({ SocialId: profile.id ,name:profile.displayName,Avatar:profile.photos[0].value}, function (err, user) {
@@ -84,7 +84,7 @@ passport.use(new FacebookStrategy({
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['profile'] }));
 app.get('/auth/google/loggedin', 
-  passport.authenticate('google',{ failureRedirect: 'http://localhost:3000/login' }),
+  passport.authenticate('google',{ failureRedirect: 'https://keeper-by-saurav.cyclic.app/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
     res.redirect("https://keeper-by-saurav.cyclic.app/");
