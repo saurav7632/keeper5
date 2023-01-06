@@ -9,10 +9,13 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var FacebookStrategy=require("passport-facebook").Strategy
+var GitHubStrategy=require("passport-github2").Strategy
 var findOrCreate = require('mongoose-findorcreate')
 
 mongoose.set('strictQuery', false);
-mongoose.connect("mongodb+srv://admin:admin@cluster0.wu6ayr7.mongodb.net/keeperDB")
+// mongoose.connect("mongodb+srv://admin:admin@cluster0.wu6ayr7.mongodb.net/keeperDB")
+mongoose.connect("mongodb://localhost/keeperDB");
+
 
 const app=express();
 app.use(bodyParser.json());
@@ -72,7 +75,7 @@ passport.serializeUser(function(user, cb) {
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_CLIENT_ID,
     clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-    callbackURL: "http://localhost:8080/auth/facebook/loggedin"
+    callbackURL: "https://keeper-by-saurav.cyclic.app/auth/facebook/loggedin"
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({ SocialId: profile.id,name:profile.displayName}, function (err, user) {
@@ -81,19 +84,40 @@ passport.use(new FacebookStrategy({
     });
   }
 ));
+passport.use(new GitHubStrategy({
+    clientID:process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: "https://keeper-by-saurav.cyclic.app/auth/github/loggedin"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ SocialId: profile.id,name:profile.username }, function (err, user) {
+        console.log(profile);
+      return done(err, user);
+    });
+  }
+));
+app.get('/auth/github',
+  passport.authenticate('github', { scope: [ 'user' ] }));
+
+app.get('/auth/github/loggedin', 
+  passport.authenticate('github', { failureRedirect: 'https://keeper-by-saurav.cyclic.app/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('https://keeper-by-saurav.cyclic.app/');
+  });
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['profile'] }));
 app.get('/auth/google/loggedin', 
   passport.authenticate('google',{ failureRedirect: 'https://keeper-by-saurav.cyclic.app/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect("https://keeper-by-saurav.cyclic.app/");
+    res.redirect("/");
   });
   app.get('/auth/facebook',
   passport.authenticate('facebook'));
 
   app.get('/auth/facebook/loggedin',
-  passport.authenticate('facebook', { failureRedirect: 'http://localhost:3000/login' }),
+  passport.authenticate('facebook', { failureRedirect: 'https://keeper-by-saurav.cyclic.app/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
     res.redirect("https://keeper-by-saurav.cyclic.app/");
